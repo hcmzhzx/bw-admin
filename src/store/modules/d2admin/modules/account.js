@@ -52,14 +52,12 @@ export default {
          /**
           * @description 注销
           */
-         function logout() {
+         function logout () {
             // 删除cookie
             util.cookies.remove('token')
             util.cookies.remove('uuid')
             // 跳转路由
-            vm.$router.push({
-               name: 'login'
-            })
+            window.location.href = `https://oauth.zx85.net/login?client_id=20181019165102&redirect_url=http://console.eyooh.com`
          }
 
          // 判断是否需要确认

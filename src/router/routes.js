@@ -49,13 +49,13 @@ const frameOut = [
          beforeCreate () {this.$router.replace(JSON.parse(this.$route.params.path))},
          render: h => h()
       }
-   },
+   }
    // 登录
-   {
+   /*,{
       path: '/login',
       name: 'login',
       component: () => import('@/pages/login')
-   }
+   }*/
 ]
 
 /**

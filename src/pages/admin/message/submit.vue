@@ -110,7 +110,7 @@
 
          handleRowEdit ({index, row}, done) {
             this.formOptions.saveLoading = true
-            httpPost(`feed_back/examine`,{examine_url:row.examine_url}).then(res=>{
+            httpPost(`feed_back/examine/${row.id}`,{examine_url:row.examine_url}).then(res=>{
                this.$message({message: res.message, type: 'success'})
                done()
                this.formOptions.saveLoading = false

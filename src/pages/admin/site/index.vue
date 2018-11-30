@@ -4,6 +4,11 @@
       <el-table :data="Data" border style="width: 100%" :row-class-name="tableRowClassName">
          <el-table-column align="center" width="120" prop="site.title" label="站点名"></el-table-column>
          <el-table-column align="center" width="120" prop="plate" label="站点标识"></el-table-column>
+         <el-table-column align="center" width="120" prop="plate" label="类型">
+            <template slot-scope="scope">
+               <span>{{scope.row.site.plateform==2 ? '爆文' : '保险'}}</span>
+            </template>
+         </el-table-column>
          <el-table-column align="center" prop="wechat.appid" label="公众号appid"></el-table-column>
          <el-table-column align="center" width="140" prop="site.phone" label="客服电话"></el-table-column>
          <el-table-column align="center" width="140" prop="site.wechat" label="客服微信"></el-table-column>

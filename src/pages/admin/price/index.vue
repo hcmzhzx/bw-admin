@@ -10,6 +10,7 @@
             :form-options="formOptions"
             :form-rules="formRules"
             :options="options"
+            :loading="loading"
             @row-edit="handleRowEdit"
             @dialog-cancel="handleDialogCancel"/>
       </template>
@@ -83,7 +84,8 @@
             options: {stripe: true},
 
             pageSize:0,
-            total:0
+            total:0,
+            loading:true
          }
       },
       created(){
@@ -91,6 +93,7 @@
             this.data = res.data
             this.pageSize = res.per_page
             this.total = res.total
+            this.loading = false
          })
       },
       methods:{
@@ -103,10 +106,7 @@
                k == 'body' ? posts[k] = v : posts[k] = Number(v);
             }
             httpPat(`payment/${Id}`,posts).then(res=>{
-               this.$message({
-                  message: '编辑成功',
-                  type: 'success'
-               })
+               this.$message({message: '编辑成功', type: 'success'})
                done()
                this.formOptions.saveLoading = false
             })

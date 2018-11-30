@@ -35,4 +35,6 @@ export default {
 .fitimg{width:100%;height:100%;object-fit:cover}
 button,input,select,textarea{font:inherit;outline:0;border:0;border-radius:0;-webkit-tap-highlight-color:transparent;appearance:none;-webkit-appearance:none;background:0 0;line-height:normal;-webkit-writing-mode:horizontal-tb;resize:none;color:inherit;white-space:pre-wrap;word-wrap:break-word;-webkit-rtl-ordering:logical;user-select:text}
 input::-webkit-inner-spin-button,input::-webkit-outer-spin-button,input::-webkit-search-cancel-button{-webkit-appearance:none !important;}  /*移除表单默认样式*/
+.el-table--striped{border-top:1px solid #ebeef5;border-left:1px solid #ebeef5;}
+table{border-collapse:collapse !important;}
 </style>

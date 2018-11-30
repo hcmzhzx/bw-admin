@@ -49,6 +49,7 @@
 </script>
 
 <style>
+.details .el-form-item{border: 1px solid #ebeef5;}
 .details .imgs{display:inline-block;width:100px;height:100px;margin-right:6px;}
 .details .content{background:#fff;}
 .details .content *{font-size:14px!important;}

@@ -8,6 +8,7 @@ export default {
    component: layoutHeaderAside,
    children: (pre => [
       {path: 'statement', name: `${pre}`, component: () => import('@/pages/admin/statement'), meta: {meta, title: '数据报表'}},
+      {path: 'template', name: `${pre}-template`, component: () => import('@/pages/admin/statement/template'), meta: {meta, title: '模板消息报表'}},
       {path: 'attract', name: `${pre}-attract`, component: () => import('@/pages/admin/statement/attract'), meta: {meta, title: '招商报表'}},
       {path: 'operation', name: `${pre}-operation`, component: () => import('@/pages/admin/statement/operation'), meta: {meta, title: '运营报表'}},
       {path: 'dealer', name: `${pre}-dealer`, component: () => import('@/pages/admin/statement/dealer'), meta: {meta, title: '经销商报表'}},

@@ -23,38 +23,8 @@
 </template>
 
 <script>
-   import util from '@/libs/util.js'
-   import {httpGet} from '@/api/sys/http'
-
    export default {
-      created(){
-         // 判断本地token及获取code
-         /*if (!util.cookies.get('token')) {
-            if (location.search.includes('?code=')) {
-               const code = location.search.substr(location.search.indexOf('=') + 1);
-               httpGet(`get_token?code=${code}`).then(res => {
-                  util.cookies.set('token', res.access_token)
-               })
-            }
-         }*/
-
-         this.$store.dispatch('d2admin/db/get',{dbName: 'sys', path: 'user.info', user: true}, {root: true}).then(res=>{
-            if(!res){
-               // 获取用户信息
-               httpGet(`admin/info`).then(async res => {
-                  // 设置 vuex 用户信息
-                  this.$store.dispatch('d2admin/user/set', {
-                     id: res.id,
-                     name: res.username,
-                     phone: res.phone
-                  }, {root: true})
-                  // 删除 cookie 中保存的重定向页面
-                  util.cookies.remove('redirect')
-               })
-            }
-         })
-      }
-
+      name:'index'
    }
 </script>
 

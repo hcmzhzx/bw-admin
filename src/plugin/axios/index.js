@@ -2,6 +2,7 @@ import store from '@/store'
 import axios from 'axios'
 import {Message} from 'element-ui'
 import util from '@/libs/util'
+import { httpGet } from '@/api/sys/http'
 
 // 创建一个错误
 function errorCreat(msg) {
@@ -46,9 +47,6 @@ service.interceptors.request.use(
          if (token && token !== 'undefined') {
             // 让每个请求携带token-- ['X-Token']为自定义key 请根据实际情况自行修改
             config.headers['Authorization'] = `Bearer ${token}`
-         } else {
-            console.log(2);
-            console.log(util.cookies.get('redirect'));
          }
       }
       return config

@@ -37,7 +37,7 @@
             <el-table-column align="center" prop="cname" label="用户名"></el-table-column>
             <el-table-column align="center" prop="phone" label="手机号"></el-table-column>
             <el-table-column align="center" prop="wechat" label="微信"></el-table-column>
-            <el-table-column align="center" prop="brand.name" label="公司"></el-table-column>
+            <el-table-column align="center" prop="bid" label="公司"></el-table-column>
             <el-table-column align="center" prop="first_rate" label="普通佣金"></el-table-column>
             <el-table-column align="center" prop="second_rate" label="经销商佣金"></el-table-column>
             <el-table-column align="center" prop="sid.username" label="所属员工"></el-table-column>
@@ -105,6 +105,7 @@
                this.data = res.data.map((item)=>{
                   let json = {...item};
                   json.locktime = json.locktime == 0 ? '' : json.locktime
+                  json.bid = item.bid ? this.brand.find(val=>{return item.bid == val.id}).name : ''
                   return json;
                })
                this.pageSize = res.per_page

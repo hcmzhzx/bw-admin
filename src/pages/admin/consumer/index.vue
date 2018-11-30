@@ -38,10 +38,10 @@
             <el-table-column align="center" prop="cname" label="用户名"></el-table-column>
             <el-table-column align="center" prop="phone" label="手机号"></el-table-column>
             <el-table-column align="center" prop="wechat" label="微信"></el-table-column>
-            <el-table-column align="center" prop="brand.name" label="公司"></el-table-column>
+            <el-table-column align="center" prop="bid" label="公司"></el-table-column>
             <el-table-column align="center" prop="superior.cname" label="推荐人"></el-table-column>
             <el-table-column align="center" prop="superior_up.cname" label="推荐人上级"></el-table-column>
-            <el-table-column align="center" prop="reward" label="推广金(元)" width="90"></el-table-column>
+            <el-table-column align="center" prop="reward" label="推广比例(%)" width="90"></el-table-column>
             <el-table-column align="center" label="关注" width="90">
                <template slot-scope="scope">
                   <el-tag :type="scope.row.subscribe==0? 'danger' : 'success'">{{scope.row.subscribe==0 ? '未关注' : '已关注'}}</el-tag>
@@ -70,9 +70,12 @@
       </template>
       <template slot="footer">
          <div class="between">
-            <el-select v-model="Mcvalue" @change="merchant" placeholder="分配合作">
-               <el-option v-for="item in merchants" :key="item.id" :label="item.username" :value="item.id"></el-option>
-            </el-select>
+            <div class="flex left">
+               <el-select v-model="Mcvalue" placeholder="分配合作" style="width:140px">
+                  <el-option v-for="item in merchants" :key="item.id" :label="item.username" :value="item.id"></el-option>
+               </el-select>
+               <el-button type="primary" @click="merchant">分配</el-button>
+            </div>
             <el-pagination @current-change="handleCurrent" background layout="prev, pager, next, total" :page-size="pageSize" :total="total"></el-pagination>
          </div>
       </template>
@@ -129,6 +132,7 @@
                   let json = {...item};
                   json.locktime = json.locktime == 0 ? '' : json.locktime
                   json.popularize = `http://${item.plateform}.eyooh.com/?pid=${item.id}`
+                  json.bid = item.bid ? this.brand.find(val=>{return item.bid == val.id}).name : ''
                   return json
                })
                this.pageSize = res.per_page
@@ -137,6 +141,7 @@
             });
          },
          searchBtn(){
+            if(this.loading) return false;
             this.loading = this.Search = true
             httpGet(`user/user_normal?type=${this.search.type}&admin_id=${this.search.admin_id}&brand_id=${this.search.brand_id}&other=${this.search.other}&key=${this.search.key}`).then(res=>{
                this.data = res.data.map((item)=>{
@@ -170,13 +175,14 @@
          allselec(val){
             this.user_ids = val.map(item=>{return item.id})
          },
-         merchant(val){
-            httpPut(`user/set_merchant`,{merchant_id:val,user_ids:this.user_ids}).then(res=>{
-               this.$message({
-                  message: res.message,
-                  type: 'success'
+         merchant(){
+            if(this.user_ids.length){
+               httpPut(`user/set_merchant`,{merchant_id:this.Mcvalue, user_ids:this.user_ids}).then(res=>{
+                  this.$message({message: res.message, type: 'success'})
                })
-            })
+            } else {
+               this.$message({message: '请选择分配信息', type: 'warning'})
+            }
          },
          copyPlate(txt) {
             let otext = document.createElement('textarea');
@@ -200,6 +206,7 @@
 </script>
 
 <style>
+.user table{border-collapse: separate !important;}
 .user .priceFrom .el-button{display:-webkit-box;margin-left:4px;}
 .user .d2-container-full__header .el-form-item{margin:0;}
 .user .d2-container-full__header .el-input{width:180px;}

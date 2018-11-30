@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import {httpGet} from '@/api/sys/http'
+import { httpGet } from '@/api/sys/http'
 
 // 进度条
 import NProgress from 'nprogress'
@@ -32,18 +32,25 @@ router.beforeEach((to, from, next) => {
    // 请根据自身业务需要修改
    const token = util.cookies.get('token')
    if (token && token !== 'undefined') {
-
       next()
    } else {
-      const search = 'http://localhost:8080'
+      const search = 'http://console.eyooh.com'
       if (location.search.includes('?code=')) {
-         const code = location.search.substr(location.search.indexOf('=') + 1);
-         httpGet(`get_token?code=${code}`).then(res => {
+         const code = location.search.substr(location.search.indexOf('=') + 1)
+         httpGet(`get_token?code=${code}`).then(async res => {
             util.cookies.set('token', res.access_token)
-
+            // 获取用户信息
+            await httpGet(`admin/info`).then(res => {
+               // 设置 vuex 用户信息
+               store.dispatch('d2admin/user/set', {
+                  id: res.id,
+                  name: res.username,
+                  phone: res.phone
+               }, {root: true})
+            })
             const path = util.cookies.get('redirect')
             // 根据是否存有重定向页面判断如何重定向 http://localhost:8080    http://console.eyooh.com
-            window.location.href = path ? `${search}/#${path}` : `${search}/#/index`
+            window.location.href = path ? `${search}/#${path}` : `${search}`
             // 删除 cookie 中保存的重定向页面
             util.cookies.remove('redirect')
          })
@@ -51,7 +58,7 @@ router.beforeEach((to, from, next) => {
          // 将当前预计打开的页面完整地址临时存储 登录后继续跳转，这个 cookie(redirect) 会在登录后自动删除
          util.cookies.set('redirect', to.fullPath)
          // 没有登录的时候跳转到登录界面
-         window.location.href = `https://oauth.zx85.net/login?client_id=20181019165102&redirect_url=${search}/#/index`
+         window.location.href = `https://oauth.zx85.net/login?client_id=20181019165102&redirect_url=${search}`
       }
    }
 })
@@ -61,9 +68,9 @@ router.afterEach(to => {
    NProgress.done()
    // 需要的信息
    const app = router.app
-   const {name, params, query} = to
+   const { name, params, query } = to
    // 多页控制 打开新的页面
-   app.$store.dispatch('d2admin/page/open', {name, params, query})
+   app.$store.dispatch('d2admin/page/open', { name, params, query })
    // 更改标题
    util.title(to.meta.title)
 })

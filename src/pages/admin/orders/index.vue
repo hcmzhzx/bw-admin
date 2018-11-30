@@ -38,11 +38,11 @@
             <el-table-column align="center" prop="user.cname" label="用户名"></el-table-column>
             <el-table-column align="center" prop="user.phone" label="手机号"></el-table-column>
             <el-table-column align="center" prop="brand.name" label="公司"></el-table-column>
-            <el-table-column align="center" prop="fee" label="价格"></el-table-column>
-            <el-table-column align="center" prop="unit" label="月数"></el-table-column>
-            <el-table-column align="center" prop="payment" label="支付方式"></el-table-column>
-            <el-table-column align="center" prop="addtime" label="下单时间"></el-table-column>
-            <el-table-column align="center" label="支付时间">
+            <el-table-column align="center" prop="fee" label="价格" width="100"></el-table-column>
+            <el-table-column align="center" prop="unit" label="月数" width="100"></el-table-column>
+            <el-table-column align="center" prop="payment" label="支付方式" width="100"></el-table-column>
+            <el-table-column align="center" prop="addtime" label="下单时间" width="140"></el-table-column>
+            <el-table-column align="center" label="支付时间" width="140">
                <template slot-scope="scope">
                   <el-tag type="danger" v-if="scope.row.paytime==0">未支付</el-tag>
                   <span v-else>{{scope.row.paytime}}</span>
@@ -50,10 +50,10 @@
             </el-table-column>
             <el-table-column align="center" prop="reward[0].user.cname" label="推广人"></el-table-column>
             <el-table-column align="center" prop="reward[1].user.cname" label="推广人上级"></el-table-column>
-            <el-table-column align="center" label="退款时间">
+            <el-table-column align="center" label="退款时间" width="140">
                <template slot-scope="scope">{{scope.row.refundtime == 0 ? '' : scope.row.refundtime}}</template>
             </el-table-column>
-            <el-table-column align="center" label="退款金额">
+            <el-table-column align="center" label="退款金额" width="100">
                <template slot-scope="scope">{{scope.row.refundfee == 0 ? '' : scope.row.refundfee}}</template>
             </el-table-column>
          </el-table>

@@ -17,8 +17,8 @@ import D2Crud from '@d2-projects/d2-crud'
 
 // 菜单和路由设置
 import router from './router'
-import {menuHeader, menuAside} from '@/menu'
-import {frameInRoutes} from '@/router/routes'
+import { menuHeader, menuAside } from '@/menu'
+import { frameInRoutes } from '@/router/routes'
 
 // 核心插件
 Vue.use(d2Admin)
@@ -28,28 +28,28 @@ Vue.use(d2Admin)
 Vue.use(D2Crud)
 
 Vue.mixin({
-   methods:{
+   methods: {
       // 行求和
-      rowTotal(item){
+      rowTotal (item) {
          let arrNuber = Object.values(item).filter((item) => {
-            return Number.isFinite(item);
-         });
+            return Number.isFinite(item)
+         })
          return arrNuber.reduce((prev, cur) => {
             return prev + cur
          })
       },
 
-      setBrand(val){  //写入品牌
+      setBrand (val) { // 写入品牌
          this.$store.dispatch('d2admin/db/set', {
             dbName: 'brand',
-            path:'admin.brand',
-            value: val,
+            path: 'admin.brand',
+            value: val
          })
       },
-      getBrand(){   //读取品牌
+      getBrand () { // 读取品牌
          return this.$store.dispatch('d2admin/db/get', {
             dbName: 'brand',
-            path:'admin.brand',
+            path: 'admin.brand',
             defaultValue: ''
          })
       }
