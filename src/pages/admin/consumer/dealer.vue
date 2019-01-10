@@ -57,83 +57,88 @@
          </el-table>
          </template>
       <template slot="footer">
-         <el-pagination @current-change="handleCurrent" background layout="prev, pager, next, total" :page-size="pageSize" :total="total"></el-pagination>
+         <el-pagination @current-change="handleCurrent" background layout="prev, pager, next, total" :current-page.sync="pageNo" :page-size="pageSize" :total="total"></el-pagination>
       </template>
    </d2-container>
 </template>
 
 <script>
-   import {httpGet,httpPost,httpPat} from '@/api/sys/http'
+   import { httpGet } from '@/api/sys/http'
 
    export default {
       name: 'admin-consumer-dealer',
-      data(){
+      data () {
          return {
             data: [],
-            admin:[],
-            brand:[],
-            search:{type:'', admin_id:'', brand_id:'', other:'phone', key:''},
-            Search:false,
-            pageSize:0,
-            total:0,
-            loading:true
+            admin: [],
+            brand: [],
+            search: { type: '', admin_id: '', brand_id: '', other: 'phone', key: '' },
+            Search: false,
+            pageNo: 1,
+            pageSize: 0,
+            total: 0,
+            loading: true
          }
       },
-      async created(){
-         await httpGet(`admins`).then(res=> {  // 获取员工
-            for(let item of Object.values(res)){
-               this.admin.push(item);
+      async created () {
+         await httpGet(`admins`).then(res => { // 获取员工
+            for (let item of Object.values(res)) {
+               this.admin.push(item)
             }
-         });
+         })
          const brand = await this.getBrand()
-         if(brand){
+         if (brand) {
             this.brand = brand
          } else {
-            httpGet(`brand_select`).then(res=>{  // 获取公司
-               for(let item of Object.values(res)){
-                  this.brand.push(item);
+            httpGet(`brand_select`).then(res => { // 获取公司
+               for (let item of Object.values(res)) {
+                  this.brand.push(item)
                }
                this.setBrand(this.brand)
             })
          }
-         await this.loadData();
+         await this.loadData()
       },
-      methods:{
-         loadData(){
+      methods: {
+         loadData () {
             this.loading = true; this.Search = false
-               httpGet(`user/user_dealer`).then(res=>{
-               this.data = res.data.map((item)=>{
-                  let json = {...item};
+               httpGet(`user/user_dealer`).then(res => {
+               this.data = res.data.map((item) => {
+                  let json = { ...item }
                   json.locktime = json.locktime == 0 ? '' : json.locktime
-                  json.bid = item.bid ? this.brand.find(val=>{return item.bid == val.id}).name : ''
-                  return json;
+                  json.bid = item.bid ? this.brand.find(val => { return item.bid == val.id }).name : ''
+                  return json
                })
+               this.pageNo = 1
                this.pageSize = res.per_page
                this.total = res.total
                this.loading = false
             })
          },
-         searchBtn(){
+         searchBtn () {
             this.loading = this.Search = true
-            httpGet(`user/user_dealer?type=${this.search.type}&admin_id=${this.search.admin_id}&brand_id=${this.search.brand_id}&other=${this.search.other}&key=${this.search.key}`).then(res=>{
-               this.data = res.data.map((item)=>{
-                  let json = {...item};
+            httpGet(`user/user_dealer?type=${this.search.type}&admin_id=${this.search.admin_id}&brand_id=${this.search.brand_id}&other=${this.search.other}&key=${this.search.key}`).then(res => {
+               this.data = res.data.map((item) => {
+                  let json = { ...item }
                   json.locktime = json.locktime == 0 ? '' : json.locktime
-                  return json;
+                  json.bid = item.bid ? this.brand.find(val => { return item.bid == val.id }).name : ''
+                  return json
                })
+               this.pageNo = 1
                this.pageSize = res.per_page
                this.total = res.total
                this.loading = false
             })
          },
-         handleCurrent(val){
+         handleCurrent (val) {
             this.loading = true
             const url = this.Search ? `user/user_dealer?type=${this.search.type}&admin_id=${this.search.admin_id}&brand_id=${this.search.brand_id}&other=${this.search.other}&key=${this.search.key}&page=${val}` : `user/user_dealer?page=${val}`
-            httpGet(url).then(res=>{
-               this.data = res.data.reverse().map((item)=>{
-                  let json = {...item};
+            httpGet(url).then(res => {
+               this.data = res.data.map((item) => {
+                  let json = { ...item }
                   json.locktime = json.locktime == 0 ? '' : json.locktime
-                  return json;
+                  json.bid = item.bid ? this.brand.find(val => { return item.bid == val.id }).name : ''
+                  return json
                })
                this.pageSize = res.per_page
                this.total = res.total

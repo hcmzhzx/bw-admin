@@ -46,7 +46,7 @@ router.beforeEach((to, from, next) => {
                   id: res.id,
                   name: res.username,
                   phone: res.phone
-               }, {root: true})
+               }, { root: true })
             })
             const path = util.cookies.get('redirect')
             // 根据是否存有重定向页面判断如何重定向 http://localhost:8080    http://console.eyooh.com

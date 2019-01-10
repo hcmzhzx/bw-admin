@@ -20,47 +20,50 @@
 </template>
 
 <script>
-   import {httpGet,httpPost,httpDel} from '@/api/sys/http'
+   import { httpGet, httpPost, httpDel } from '@/api/sys/http'
 
    export default {
       name: 'admin-message-submit',
-      data(){
-         return{
-            brand:[],
+      data () {
+         return {
+            brand: [],
             columns: [
-               {title: 'id', key: 'id', width: '80px', align:'center'},
-               {title: '用户名', key: 'user.cname', width: '140px', align:'center'},
-               {title: '品牌', key: 'user.bid', width: '140px', align:'center'},
-               {title: '手机号', key: 'user.phone', width: '140px', align:'center'},
-               {title: '内容', key: 'content', align:'center'},
-               {title: '提交时间', key: 'addtime', width: '190px', align:'center'},
-               {title: '审核链接', key: 'examine_url', align:'center'},
-               {title: '审核时间', key: 'examine_at', width: '190px', align:'center'},
+               { title: 'id', key: 'id', width: '80', align: 'center' },
+               { title: '用户名', key: 'user.cname', width: '140', align: 'center' },
+               { title: '品牌', key: 'user.bid', width: '140', align: 'center' },
+               { title: '手机号', key: 'user.phone', width: '140', align: 'center' },
+               { title: '内容', key: 'content', minWidth: '300', align: 'center' },
+               { title: '审核链接', key: 'examine_url', minWidth: '300', align: 'center' },
+               { title: '提交时间', key: 'addtime', width: '190', align: 'center' },
+               { title: '审核时间', key: 'examine_at', width: '190', align: 'center' }
             ],
             data: [],
-            rowHandle:{
-               width:'180px',
-               align:'center',
-               columnHeader:'操作',
-               edit:{
-                  text:'审核',
-                  size:'small',
-                  disabled(index,row){
-                     if(row.forbidEdit){return true}
+            rowHandle: {
+               width: '160',
+               align: 'center',
+               fixed: 'right',
+               columnHeader: '操作',
+               edit: {
+                  text: '审核',
+                  size: 'small',
+                  disabled (index, row) {
+                     if (row.examine_url) { return true }
                      return false
                   }
                },
-               remove:{
-                  text:'删除',
-                  size:'small',
-                  disabled(index,row){
-                     if(row.forbidEdit){return true}
+               remove: {
+                  text: '删除',
+                  size: 'small',
+                  disabled (index, row) {
+                     if (row.examine_url) { return true }
                      return false
                   }
                }
             },
-            formTemplate:{examine_url:{title:'审核链接',value:''}},
-            formOptions: {labelWidth: '80px', labelPosition: 'left', saveLoading: false},
+            formTemplate:{
+               examine_url: {title: '审核链接', value: '', component:{placeholder:'http://self.eyooh.com/detail?id=xxx'}},
+            },
+            formOptions: {labelWidth: '80', labelPosition: 'left', saveLoading: false},
             options:{border: true},
             pageSize:0,
             total:0,
@@ -109,16 +112,19 @@
          },
 
          handleRowEdit ({index, row}, done) {
+            if(!row.examine_url) {
+               this.$message({message: '不能为空', type: 'warning'})
+               return false
+            }
             this.formOptions.saveLoading = true
             httpPost(`feed_back/examine/${row.id}`,{examine_url:row.examine_url}).then(res=>{
                this.$message({message: res.message, type: 'success'})
                done()
                this.formOptions.saveLoading = false
-               row.forbidEdit = true  // 按钮禁用
             })
          },
          handleRowRemove ({index, row}, done) {
-            httpDel(`feed_back/1?id=${row.id}`).then(res=>{
+            httpDel(`feed_back/${row.id}`).then(res=>{
                this.$message({message: res.message, type: 'success'})
                done()
             })

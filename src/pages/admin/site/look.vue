@@ -108,9 +108,9 @@
       methods: {
          // 上传Logo
          upLogo(file){
-            const form = new FormData();
-            form.append('type', 'website_logo');
-            form.append('image', file);
+            const form = new FormData()
+            form.append('type', 'website_logo')
+            form.append('image', file)
             httpPost(`upload/image`, form).then(res => {
                this.Data.logo = [{url: res.path}]
             })

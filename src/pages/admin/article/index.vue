@@ -36,13 +36,13 @@
             <el-table-column align="center" prop="created_at" label="创建时间" width="200"></el-table-column>
             <el-table-column align="center" label="操作" width="140">
                <template slot-scope="scope">
-                  <el-button type="primary" @click="$router.push({name:'admin-article-details',query:{id:scope.row.id}})" plain>查看详情</el-button>
+                  <el-button type="primary" @click="$router.push({name:'admin-article-detail',query:{id:scope.row.id}})" plain>查看详情</el-button>
                </template>
             </el-table-column>
          </el-table>
       </template>
       <template slot="footer">
-         <el-pagination @current-change="handleCurrent" background layout="prev, pager, next, total" :page-size="pageSize" :total="total"></el-pagination>
+         <el-pagination @current-change="handleCurrent" background layout="prev, pager, next, total" :current-page.sync="pageNo" :page-size="pageSize" :total="total"></el-pagination>
       </template>
    </d2-container>
 </template>
@@ -59,6 +59,7 @@
             categorie:[],
             search:{cid:'',brand_id:'',sort:'',title:''},
             Search:false,
+            pageNo: 1,
             pageSize:0,
             total:0,
             loading:true
@@ -97,12 +98,13 @@
             this.loading = this.Search = true
             httpGet(`articles?cid=${this.search.cid}&brand_id=${this.search.brand_id}&sort=${this.search.sort}&title=${this.search.title}`).then(res=>{
                this.data = res.data.map(item=>{
-                  let json = {...item}
-                  json.brand = this.brand.find(val=>{
-                     return item.brand_id = val.id
-                  }).name
+                  let json = {...item}, obj = this.brand.find(val=>{
+                     return item.brand_id == val.id
+                  })
+                  json.brand = obj ? obj.name : ''
                   return json
                })
+               this.pageNo = 1
                this.pageSize = res.per_page
                this.total = res.total
                this.loading = false
@@ -113,10 +115,10 @@
             const url = this.Search ? `articles?cid=${this.search.cid}&brand_id=${this.search.brand_id}&sort=${this.search.sort}&title=${this.search.title}&page=${val}` : `articles?page=${val}`
             httpGet(url).then(res=>{
                this.data = res.data.map(item=>{
-                  let json = {...item}
-                  json.brand = this.brand.find(val=>{
-                     return item.brand_id = val.id
-                  }).name
+                  let json = {...item}, obj = this.brand.find(val=>{
+                     return item.brand_id == val.id
+                  })
+                  json.brand = obj ? obj.name : ''
                   return json
                })
                this.pageSize = res.per_page

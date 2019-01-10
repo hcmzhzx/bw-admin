@@ -21,33 +21,31 @@
 </template>
 
 <script>
-   import {httpGet,httpPost,httpPat} from '@/api/sys/http'
+   import { httpGet, httpPost, httpPat } from '@/api/sys/http'
    import recom from './recom'
 
    export default {
       name: 'admin-price',
-      components: {recom},
-      data(){
-         return{
+      components: { recom },
+      data () {
+         return {
             data: [],
-            siteList:[],
+            siteList: [],
             columns: [
-               {title: '站点', key: 'plateform'},
-               {title: '支付标题', key: 'body'},
-               {title: '月数', key: 'unit'},
-               {title: '现价', key: 'price'},
-               {title: '市场价', key: 'market'},
-               {title: '推荐', key: 'commend',component: {
-                  name: recom
-               }},
-               {title: '排序', key: 'sortid'}
+               { title: '站点', key: 'plateform' },
+               { title: '支付标题', key: 'body' },
+               { title: '月数', key: 'unit' },
+               { title: '现价', key: 'price' },
+               { title: '市场价', key: 'market' },
+               { title: '推荐', key: 'commend', component: { name: recom } },
+               { title: '排序', key: 'sortid' }
             ],
             rowHandle: {
                columnHeader: '编辑表格',
                edit: {
                   icon: 'el-icon-edit',
                   text: '编辑',
-                  size: 'small',
+                  size: 'small'
                }
             },
             formTemplate: {
@@ -58,7 +56,7 @@
                   disabled () {
                      return false
                   }
-               }},*/
+               }}, */
                body: {title: '支付标题', value: ''},
                unit: {title: '月数', value: ''},
                price: {title: '现价', value: ''},

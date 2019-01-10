@@ -1,6 +1,6 @@
 <template>
-   <d2-container class="template">
-      <div class="el-table el-table--fit el-table--enable-row-transition el-table__body" style="margin-top:4px;width:100%;" v-if="!Loading">
+   <d2-container class="message">
+      <div class="el-table el-table--fit el-table--enable-row-transition el-table__body" style="width:100%;" v-if="!Loading">
          <p class="title">模板消息报表</p>
          <table class="el-table--border" style="width:100%;">
             <thead>
@@ -54,12 +54,12 @@
             </tr>
             <tr>
                <td class="is-center">同比</td>
-               <td class="is-center" v-cloak>{{templateList.article.this_month}}</td>
-               <td class="is-center" v-cloak>{{templateList.profile.this_month}}</td>
-               <td class="is-center" v-cloak>{{templateList.wechat.this_month}}</td>
-               <td class="is-center" v-cloak>{{templateList.day.this_month}}</td>
-               <td class="is-center" v-cloak>{{templateList.week.this_month}}</td>
-               <td class="is-center" v-cloak>{{templateList.examine.this_month}}</td>
+               <td class="is-center" v-cloak>{{templateList.article.last_month_day}}</td>
+               <td class="is-center" v-cloak>{{templateList.profile.last_month_day}}</td>
+               <td class="is-center" v-cloak>{{templateList.wechat.last_month_day}}</td>
+               <td class="is-center" v-cloak>{{templateList.day.last_month_day}}</td>
+               <td class="is-center" v-cloak>{{templateList.week.last_month_day}}</td>
+               <td class="is-center" v-cloak>{{templateList.examine.last_month_day}}</td>
             </tr>
             <tr>
                <td class="is-center">上月</td>
@@ -99,7 +99,7 @@
    import {httpGet} from '@/api/sys/http'
 
    export default {
-      name: 'admin-statement-template',
+      name: 'message',
       data(){
          return{
             templateList:{},
@@ -116,5 +116,5 @@
 </script>
 
 <style>
-.template .title{margin:0;padding:12px 0;text-align:center;background:#fff;font-weight:bold;color:#909399;border:1px solid #ebeef5;border-bottom:none;}
+.message .title{margin:0;padding:12px 0;text-align:center;background:#fff;font-weight:bold;color:#909399;border:1px solid #ebeef5;border-bottom:none;}
 </style>

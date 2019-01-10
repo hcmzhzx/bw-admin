@@ -6,6 +6,7 @@
             <thead>
             <tr class="active">
                <th class="is-center">时间\类型</th>
+               <th class="is-center">关注人数</th>
                <th class="is-center">注册人数</th>
                <th class="is-center">创建开通率(%)</th>
                <th class="is-center">订单数</th>
@@ -20,6 +21,7 @@
             <tbody>
             <tr>
                <td class="is-center">今日</td>
+               <td class="is-center" v-cloak>{{commonList.subscribe_user.today}}</td>
                <td class="is-center" v-cloak>{{commonList.perfect_user.today}}</td>
                <td class="is-center" v-cloak>{{commonList.user_membership_rate.today.toFixed(2)}}</td>
                <td class="is-center" v-cloak>{{commonList.order.today}}</td>
@@ -32,6 +34,7 @@
             </tr>
             <tr>
                <td class="is-center">昨日</td>
+               <td class="is-center" v-cloak>{{commonList.subscribe_user.yesterday}}</td>
                <td class="is-center" v-cloak>{{commonList.perfect_user.yesterday}}</td>
                <td class="is-center" v-cloak>{{commonList.user_membership_rate.yesterday.toFixed(2)}}</td>
                <td class="is-center" v-cloak>{{commonList.order.yesterday}}</td>
@@ -44,6 +47,7 @@
             </tr>
             <tr>
                <td class="is-center">前日</td>
+               <td class="is-center" v-cloak>{{commonList.subscribe_user.before_yesterday}}</td>
                <td class="is-center" v-cloak>{{commonList.perfect_user.before_yesterday}}</td>
                <td class="is-center" v-cloak>{{commonList.user_membership_rate.before_yesterday.toFixed(2)}}</td>
                <td class="is-center" v-cloak>{{commonList.order.before_yesterday}}</td>
@@ -56,6 +60,7 @@
             </tr>
             <tr>
                <td class="is-center">本月</td>
+               <td class="is-center" v-cloak>{{commonList.subscribe_user.this_month}}</td>
                <td class="is-center" v-cloak>{{commonList.perfect_user.this_month}}</td>
                <td class="is-center" v-cloak>{{commonList.user_membership_rate.this_month.toFixed(2)}}</td>
                <td class="is-center" v-cloak>{{commonList.order.this_month}}</td>
@@ -68,18 +73,20 @@
             </tr>
             <tr>
                <td class="is-center">同比</td>
-               <td class="is-center" v-cloak>{{commonList.perfect_user.this_month}}</td>
-               <td class="is-center" v-cloak>{{commonList.user_membership_rate.this_month.toFixed(2)}}</td>
-               <td class="is-center" v-cloak>{{commonList.order.this_month}}</td>
-               <td class="is-center" v-cloak>{{commonList.open_up_order.this_month}}</td>
-               <td class="is-center" v-cloak>{{commonList.membership_rate.this_month.toFixed(2)}}</td>
-               <td class="is-center" v-cloak>{{commonList.order_money.this_month}}</td>
-               <td class="is-center" v-cloak>{{commonList.reward_use.this_month}}</td>
-               <td class="is-center" v-cloak>{{commonList.refund.this_month}}</td>
-               <td class="is-center" v-cloak>{{commonList.refund_money.this_month}}</td>
+               <td class="is-center" v-cloak>{{commonList.subscribe_user.last_month_day}}</td>
+               <td class="is-center" v-cloak>{{commonList.perfect_user.last_month_day}}</td>
+               <td class="is-center" v-cloak>{{commonList.user_membership_rate.last_month_day.toFixed(2)}}</td>
+               <td class="is-center" v-cloak>{{commonList.order.last_month_day}}</td>
+               <td class="is-center" v-cloak>{{commonList.open_up_order.last_month_day}}</td>
+               <td class="is-center" v-cloak>{{commonList.membership_rate.last_month_day.toFixed(2)}}</td>
+               <td class="is-center" v-cloak>{{commonList.order_money.last_month_day}}</td>
+               <td class="is-center" v-cloak>{{commonList.reward_use.last_month_day}}</td>
+               <td class="is-center" v-cloak>{{commonList.refund.last_month_day}}</td>
+               <td class="is-center" v-cloak>{{commonList.refund_money.last_month_day}}</td>
             </tr>
             <tr>
                <td class="is-center">上月</td>
+               <td class="is-center" v-cloak>{{commonList.subscribe_user.last_month}}</td>
                <td class="is-center" v-cloak>{{commonList.perfect_user.last_month}}</td>
                <td class="is-center" v-cloak>{{commonList.user_membership_rate.last_month.toFixed(2)}}</td>
                <td class="is-center" v-cloak>{{commonList.order.last_month}}</td>
@@ -92,6 +99,7 @@
             </tr>
             <tr>
                <td class="is-center">前月</td>
+               <td class="is-center" v-cloak>{{commonList.subscribe_user.before_last_month}}</td>
                <td class="is-center" v-cloak>{{commonList.perfect_user.before_last_month}}</td>
                <td class="is-center" v-cloak>{{commonList.user_membership_rate.before_last_month.toFixed(2)}}</td>
                <td class="is-center" v-cloak>{{commonList.order.before_last_month}}</td>
@@ -104,6 +112,7 @@
             </tr>
             <tr>
                <td class="is-center">总计</td>
+               <td class="is-center" v-cloak>{{commonList.subscribe_user.all}}</td>
                <td class="is-center" v-cloak>{{commonList.perfect_user.all}}</td>
                <td class="is-center" v-cloak>{{commonList.user_membership_rate.all.toFixed(2)}}</td>
                <td class="is-center" v-cloak>{{commonList.order.all}}</td>

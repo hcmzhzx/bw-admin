@@ -1,18 +1,18 @@
 import store from '@/store'
 import axios from 'axios'
-import {Message} from 'element-ui'
+import { Message } from 'element-ui'
 import util from '@/libs/util'
 import { httpGet } from '@/api/sys/http'
 
 // 创建一个错误
-function errorCreat(msg) {
+function errorCreat (msg) {
    const err = new Error(msg)
    errorLog(err)
    throw err
 }
 
 // 记录和显示错误
-function errorLog(err) {
+function errorLog (err) {
    // 添加到日志
    store.dispatch('d2admin/log/add', {
       type: 'error',
@@ -60,11 +60,11 @@ service.interceptors.request.use(
 
 // 响应拦截器
 service.interceptors.response.use(response => {
-   //console.log(response);
+   // console.log(response);
    // dataAxios 是 axios 返回数据中的 data
    const dataAxios = response.data
    // 这个状态码是和后端约定的
-   const {error,msg} = dataAxios;
+   const { error, msg } = dataAxios
    // 根据 error 进行判断
    if (error === undefined) {
       // 如果没有 error 代表这不是项目后端开发的接口 比如可能是 D2Admin 请求最新版本

@@ -76,7 +76,7 @@
                </el-select>
                <el-button type="primary" @click="merchant">分配</el-button>
             </div>
-            <el-pagination @current-change="handleCurrent" background layout="prev, pager, next, total" :page-size="pageSize" :total="total"></el-pagination>
+            <el-pagination @current-change="handleCurrent" background layout="prev, pager, next, total" :current-page.sync="pageNo" :page-size="pageSize" :total="total"></el-pagination>
          </div>
       </template>
    </d2-container>
@@ -90,16 +90,17 @@
       data(){
          return {
             data: [],
-            admin:[],
-            brand:[],
-            merchants:[],
-            Mcvalue:'',
-            user_ids:[],
-            search:{type:'', admin_id:'', brand_id:'', other:'phone', key:''},
-            Search:false,
-            pageSize:0,
-            total:0,
-            loading:true
+            admin: [],
+            brand: [],
+            merchants: [],
+            Mcvalue: '',
+            user_ids: [],
+            search: {type: '', admin_id: '', brand_id: '', other: 'phone', key: ''},
+            Search: false,
+            pageNo: 1,
+            pageSize: 0,
+            total: 0,
+            loading: true
          }
       },
       async created(){
@@ -135,6 +136,7 @@
                   json.bid = item.bid ? this.brand.find(val=>{return item.bid == val.id}).name : ''
                   return json
                })
+               this.pageNo = 1
                this.pageSize = res.per_page
                this.total = res.total
                this.loading = false
@@ -148,8 +150,10 @@
                   let json = {...item};
                   json.locktime = json.locktime == 0 ? '' : json.locktime
                   json.popularize = `http://${item.plateform}.eyooh.com/?pid=${item.id}`
+                  json.bid = item.bid ? this.brand.find(val=>{return item.bid == val.id}).name : ''
                   return json
                })
+               this.pageNo = 1
                this.pageSize = res.per_page
                this.total = res.total
                this.loading = false
@@ -162,7 +166,9 @@
                this.data = res.data.map((item)=>{
                   let json = {...item};
                   json.locktime = json.locktime == 0 ? '' : json.locktime
-                  return json;
+                  json.popularize = `http://${item.plateform}.eyooh.com/?pid=${item.id}`
+                  json.bid = item.bid ? this.brand.find(val=>{return item.bid == val.id}).name : ''
+                  return json
                })
                this.pageSize = res.per_page
                this.total = res.total

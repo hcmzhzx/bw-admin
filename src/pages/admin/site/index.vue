@@ -28,33 +28,32 @@
 </template>
 
 <script>
-   import {httpGet,httpPost} from '@/api/sys/http'
+   import { httpGet } from '@/api/sys/http'
 
    export default {
       name: 'admin-site',
-      data(){
-         return{
-            brand:[],
-            Data: []
+      data () {
+         return {
+            brand: [], Data: []
          }
       },
-      async created(){
+      async created () {
          const brand = await this.getBrand()
-         if(brand){
+         if (brand) {
             this.brand = brand
          } else {
-            httpGet(`brand_select`).then(res=>{  // 获取公司
-               for(let item of Object.values(res)){
-                  this.brand.push(item);
+            httpGet(`brand_select`).then(res => { // 获取公司
+               for (let item of Object.values(res)) {
+                  this.brand.push(item)
                }
                this.setBrand(this.brand)
             })
          }
-         await httpGet(`website`).then(res=>{
-            for(let [k,v] of Object.entries(res)){
-               let obj = Object.assign({plate:k}, v)
-               if(obj.site.bid){
-                  obj.site.bid = brand.find(item=>{return obj.site.bid == item.id}).name
+         await httpGet(`website`).then(res => {
+            for (let [k, v] of Object.entries(res)) {
+               let obj = Object.assign({ plate: k }, v)
+               if (obj.site.bid) {
+                  obj.site.bid = brand.find(item => { return obj.site.bid == item.id }).name
                } else {
                   obj.site.bid = '全品牌'
                }
@@ -64,11 +63,11 @@
       },
       methods: {
          // 控制行的颜色
-         tableRowClassName({row, rowIndex}) {
-            if (rowIndex%2 == 1) {
-               return 'warning-row';
+         tableRowClassName ({ row, rowIndex }) {
+            if (rowIndex % 2 == 1) {
+               return 'warning-row'
             } else {
-               return 'success-row';
+               return 'success-row'
             }
          }
       }

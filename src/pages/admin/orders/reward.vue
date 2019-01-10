@@ -21,9 +21,9 @@
          <el-table :data="data" border v-loading="loading">
             <el-table-column align="center" prop="id" label="id" width="100"></el-table-column>
             <el-table-column align="center" prop="trade" label="订单号" width="140"></el-table-column>
-            <el-table-column align="center" prop="user.name" label="用户" width="140"></el-table-column>
+            <el-table-column align="center" prop="user.cname" label="用户" width="140"></el-table-column>
             <el-table-column align="center" prop="user.phone" label="手机号" width="140"></el-table-column>
-            <el-table-column align="center" prop="account" label="支付宝账号"></el-table-column>
+            <el-table-column align="center" prop="account" label="支付宝账号" min-width="240"></el-table-column>
             <el-table-column align="center" prop="user.aname" label="支付宝姓名" width="140"></el-table-column>
             <el-table-column align="center" prop="methods" label="提现类型" width="140"></el-table-column>
             <el-table-column align="center" prop="amount" label="金额" width="120"></el-table-column>
@@ -32,7 +32,7 @@
          </el-table>
       </template>
       <template slot="footer">
-         <el-pagination @current-change="handleCurrent" background layout="prev, pager, next, total" :page-size="pageSize" :total="total"></el-pagination>
+         <el-pagination @current-change="handleCurrent" background layout="prev, pager, next, total" :current-page.sync="pageNo" :page-size="pageSize" :total="total"></el-pagination>
       </template>
    </d2-container>
 </template>
@@ -47,6 +47,7 @@
             data:[],
             search:{state:'', type:'', key:''},
             Search:false,
+            pageNo: 1,
             pageSize:0,
             total:0,
             loading:true
@@ -64,6 +65,7 @@
          searchBtn(){
             this.loading = this.Search = true
             httpGet(`reward_use?state=${this.aearch.state}&type=${this.aearch.type}&key=${this.aearch.key}`).then(res=>{
+               this.pageNo = 1
                this.data = res.data
                this.pageSize = res.per_page
                this.total = res.total
