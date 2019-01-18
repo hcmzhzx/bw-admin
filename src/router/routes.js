@@ -9,7 +9,7 @@ import message from './modules/message'
 
 import layoutHeaderAside from '@/layout/header-aside'
 
-const meta = {requiresAuth: false}
+const meta = { requiresAuth: false }
 
 /**
  * 在主框架内显示
@@ -17,7 +17,7 @@ const meta = {requiresAuth: false}
 const frameIn = [
    {
       path: '/',
-      redirect: {name: 'index'},
+      redirect: { name: 'index' },
       component: layoutHeaderAside,
       children: [
          {
@@ -35,7 +35,7 @@ const frameIn = [
    consumer,
    orders,
    statement,
-   message,
+   message
 ]
 
 /**
@@ -46,16 +46,16 @@ const frameOut = [
    {
       path: '/redirect/:path*',
       component: {
-         beforeCreate () {this.$router.replace(JSON.parse(this.$route.params.path))},
+         beforeCreate () { this.$router.replace(JSON.parse(this.$route.params.path)) },
          render: h => h()
       }
    }
    // 登录
-   /*,{
+   /* ,{
       path: '/login',
       name: 'login',
       component: () => import('@/pages/login')
-   }*/
+   } */
 ]
 
 /**
