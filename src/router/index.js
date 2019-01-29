@@ -34,7 +34,7 @@ router.beforeEach((to, from, next) => {
    if (token && token !== 'undefined') {
       next()
    } else {
-      const search = 'http://console.eyooh.com'
+      const search = 'http://localhost:8080'
       if (location.search.includes('?code=')) {
          const code = location.search.substr(location.search.indexOf('=') + 1)
          httpGet(`get_token?code=${code}`).then(async res => {

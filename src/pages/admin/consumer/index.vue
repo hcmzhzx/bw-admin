@@ -34,14 +34,14 @@
       <template>
          <el-table :data="data" tooltip-effect="dark" border style="width:100%" @select="selecChange" @select-all="allselec" v-loading="loading">
             <el-table-column align="center" type="selection" width="55"></el-table-column>
-            <el-table-column align="center" prop="id" label="id" width="80"></el-table-column>
-            <el-table-column align="center" prop="cname" label="用户名"></el-table-column>
-            <el-table-column align="center" prop="phone" label="手机号"></el-table-column>
-            <el-table-column align="center" prop="wechat" label="微信"></el-table-column>
-            <el-table-column align="center" prop="bid" label="公司"></el-table-column>
-            <el-table-column align="center" prop="superior.cname" label="推荐人"></el-table-column>
-            <el-table-column align="center" prop="superior_up.cname" label="推荐人上级"></el-table-column>
-            <el-table-column align="center" prop="reward" label="推广比例(%)" width="90"></el-table-column>
+            <el-table-column align="center" prop="id" label="id" width="90"></el-table-column>
+            <el-table-column align="center" prop="cname" label="用户名" width="120"></el-table-column>
+            <el-table-column align="center" prop="phone" label="手机号" width="120"></el-table-column>
+            <el-table-column align="center" prop="wechat" label="微信" width="120"></el-table-column>
+            <el-table-column align="center" prop="bid" label="公司" width="120"></el-table-column>
+            <el-table-column align="center" prop="superior.cname" label="推荐人" width="120"></el-table-column>
+            <el-table-column align="center" prop="superior_up.cname" label="推荐人上级" width="120"></el-table-column>
+            <el-table-column align="center" prop="reward" label="推广比例(%)" width="100"></el-table-column>
             <el-table-column align="center" label="关注" width="90">
                <template slot-scope="scope">
                   <el-tag :type="scope.row.subscribe==0? 'danger' : 'success'">{{scope.row.subscribe==0 ? '未关注' : '已关注'}}</el-tag>
@@ -50,7 +50,7 @@
             <el-table-column align="center" label="用户类型" width="90">
                <template slot-scope="scope">
                   <el-tag data="1" v-if="(scope.row.role==0 || scope.row.role==1) && !scope.row.locktime" :type="scope.row.role ? '' : 'info'" plain>{{scope.row.role ? '用户' : '访客'}}</el-tag>
-                  <el-tag time="1" :type="new Date(scope.row.locktime).getTime()<=new Date().getTime() ? 'danger' : 'success'" v-else>{{new Date(scope.row.locktime)<=new Date().getTime() ? '过期' : '开通'}}</el-tag>
+                  <el-tag time="1" :type="new Date(scope.row.locktime).getTime() <= new Date().getTime() ? 'danger' : 'success'" v-else>{{new Date(scope.row.locktime) <= new Date().getTime() ? '过期' : '开通'}}</el-tag>
                </template>
             </el-table-column>
             <el-table-column align="center" prop="locktime" label="到期时间" width="160"></el-table-column>
@@ -62,8 +62,8 @@
             </el-table-column>
             <el-table-column class="flex" align="center" fixed="right" label="操作" width="90">
                <template slot-scope="scope">
-                  <el-button @click="$router.push({name:'admin-consumer-userInfo',query:{id:scope.row.id, type:'edit'}})" type="text" size="mini">编辑</el-button>
-                  <el-button @click="$router.push({name:'admin-consumer-userInfo',query:{id:scope.row.id, type:'check'}})" type="text" size="mini">查看</el-button>
+                  <el-button @click="$router.push({ name:'admin-consumer-userInfo',query:{ id:scope.row.id, type:'edit' }})" type="text" size="mini">编辑</el-button>
+                  <el-button @click="$router.push({ name:'admin-consumer-userInfo',query:{ id:scope.row.id, type:'check' }})" type="text" size="mini">查看</el-button>
                </template>
             </el-table-column>
          </el-table>
@@ -83,11 +83,11 @@
 </template>
 
 <script>
-   import {httpGet,httpPost,httpPat,httpPut} from '@/api/sys/http'
+   import { httpGet, httpPut } from '@/api/sys/http'
 
-   export default {
+   export default{
       name: 'admin-consumer',
-      data(){
+      data () {
          return {
             data: [],
             admin: [],
@@ -95,7 +95,7 @@
             merchants: [],
             Mcvalue: '',
             user_ids: [],
-            search: {type: '', admin_id: '', brand_id: '', other: 'phone', key: ''},
+            search: { type: '', admin_id: '', brand_id: '', other: 'phone', key: '' },
             Search: false,
             pageNo: 1,
             pageSize: 0,
@@ -103,54 +103,37 @@
             loading: true
          }
       },
-      async created(){
-         await httpGet(`admins`).then(res=> {  // 员工
-            for(let item of Object.values(res)){
-               this.admin.push(item);
+      async created () {
+         await httpGet(`admins`).then(res => { // 员工
+            for (let item of Object.values(res)) {
+               this.admin.push(item)
             }
-         });
+         })
          const brand = await this.getBrand()
-         if(brand){
+         if (brand) {
             this.brand = brand
          } else {
-            httpGet(`brand_select`).then(res=>{  // 获取公司
-               for(let item of Object.values(res)){
-                  this.brand.push(item);
+            httpGet(`brand_select`).then(res => { // 获取公司
+               for (let item of Object.values(res)) {
+                  this.brand.push(item)
                }
                this.setBrand(this.brand)
             })
          }
-         await httpGet(`merchant`).then(res=>{  // 招商
+         await httpGet(`merchant`).then(res => { // 招商
             this.merchants = res
          })
-         await this.loadData();
+         await this.loadData()
       },
-      methods:{
-         loadData(){
+      methods: {
+         loadData () {
             this.loading = true; this.Search = false
-            httpGet(`user/user_normal`).then(res=>{
-               this.data = res.data.map((item)=>{
-                  let json = {...item};
+            httpGet(`user/user_normal`).then(res => {
+               this.data = res.data.map((item) => {
+                  let json = { ...item }
                   json.locktime = json.locktime == 0 ? '' : json.locktime
                   json.popularize = `http://${item.plateform}.eyooh.com/?pid=${item.id}`
-                  json.bid = item.bid ? this.brand.find(val=>{return item.bid == val.id}).name : ''
-                  return json
-               })
-               this.pageNo = 1
-               this.pageSize = res.per_page
-               this.total = res.total
-               this.loading = false
-            });
-         },
-         searchBtn(){
-            if(this.loading) return false;
-            this.loading = this.Search = true
-            httpGet(`user/user_normal?type=${this.search.type}&admin_id=${this.search.admin_id}&brand_id=${this.search.brand_id}&other=${this.search.other}&key=${this.search.key}`).then(res=>{
-               this.data = res.data.map((item)=>{
-                  let json = {...item};
-                  json.locktime = json.locktime == 0 ? '' : json.locktime
-                  json.popularize = `http://${item.plateform}.eyooh.com/?pid=${item.id}`
-                  json.bid = item.bid ? this.brand.find(val=>{return item.bid == val.id}).name : ''
+                  json.bid = item.bid ? this.brand.find(val => { return item.bid == val.id }).name : ''
                   return json
                })
                this.pageNo = 1
@@ -159,46 +142,63 @@
                this.loading = false
             })
          },
-         handleCurrent(val){
-            this.loading = true
-            const url = this.Search ? `user/user_normal?type=${this.search.type}&admin_id=${this.search.admin_id}&brand_id=${this.search.brand_id}&other=${this.search.other}&key=${this.search.key}&page=${val}` : `user/user_normal?page=${val}`
-            httpGet(url).then(res=>{
-               this.data = res.data.map((item)=>{
-                  let json = {...item};
+         searchBtn () {
+            if (this.loading) return false
+            this.loading = this.Search = true
+            httpGet(`user/user_normal?type=${this.search.type}&admin_id=${this.search.admin_id}&brand_id=${this.search.brand_id}&other=${this.search.other}&key=${this.search.key}`).then(res => {
+               this.data = res.data.map(item => {
+                  let json = { ...item }
                   json.locktime = json.locktime == 0 ? '' : json.locktime
                   json.popularize = `http://${item.plateform}.eyooh.com/?pid=${item.id}`
-                  json.bid = item.bid ? this.brand.find(val=>{return item.bid == val.id}).name : ''
+                  json.bid = item.bid ? this.brand.find(val => { return item.bid == val.id }).name : ''
+                  return json
+               })
+               this.pageNo = 1
+               this.pageSize = res.per_page
+               this.total = res.total
+               this.loading = false
+            })
+         },
+         handleCurrent (val) {
+            this.loading = true
+            const url = this.Search ? `user/user_normal?type=${this.search.type}&admin_id=${this.search.admin_id}&brand_id=${this.search.brand_id}&other=${this.search.other}&key=${this.search.key}&page=${val}` : `user/user_normal?page=${val}`
+            httpGet(url).then(res => {
+               this.data = res.data.map(item => {
+                  let json = { ...item }
+                  json.locktime = json.locktime == 0 ? '' : json.locktime
+                  json.popularize = `http://${item.plateform}.eyooh.com/?pid=${item.id}`
+                  json.bid = item.bid ? this.brand.find(val => { return item.bid == val.id }).name : ''
                   return json
                })
                this.pageSize = res.per_page
                this.total = res.total
                this.loading = false
-            });
+            })
          },
-         selecChange(val){
-            this.user_ids = val.map(item=>{return item.id})
+         selecChange (val) {
+            this.user_ids = val.map(item => { return item.id })
          },
-         allselec(val){
-            this.user_ids = val.map(item=>{return item.id})
+         allselec (val) {
+            this.user_ids = val.map(item => { return item.id })
          },
-         merchant(){
-            if(this.user_ids.length){
-               httpPut(`user/set_merchant`,{merchant_id:this.Mcvalue, user_ids:this.user_ids}).then(res=>{
-                  this.$message({message: res.message, type: 'success'})
+         merchant () {
+            if (this.user_ids.length) {
+               httpPut(`user/set_merchant`, { merchant_id: this.Mcvalue, user_ids: this.user_ids }).then(res => {
+                  this.$message({ message: res.message, type: 'success' })
                })
             } else {
-               this.$message({message: '请选择分配信息', type: 'warning'})
+               this.$message({ message: '请选择分配信息', type: 'warning' })
             }
          },
-         copyPlate(txt) {
-            let otext = document.createElement('textarea');
-            otext.value = txt;
-            otext.setAttribute('readonly', 'readonly');
-            otext.setAttribute('id', 'copyPlate');
-            otext.style = `font-size:12pt;border:0px;padding:0px;margin:0px;position:absolute;left:-9999px;top:0px;`;
-            document.body.appendChild(otext);
-            otext.select(); // 选中当前对象
-            document.execCommand("Copy"); // 将当前选中区复制到剪贴板。
+         copyPlate (txt) {
+            let otext = document.createElement('textarea')
+            otext.value = txt
+            otext.setAttribute('readonly', 'readonly')
+            otext.setAttribute('id', 'copyPlate')
+            otext.style = `font-size:12pt;border:0px;padding:0px;margin:0px;position:absolute;left:-9999px;top:0px;`
+            document.body.appendChild(otext)
+            otext.select() // 选中当前对象
+            document.execCommand('Copy') // 将当前选中区复制到剪贴板。
             this.$message({
                message: '复制成功',
                type: 'success',
@@ -214,7 +214,7 @@
 <style>
 .user table{border-collapse: separate !important;}
 .user .priceFrom .el-button{display:-webkit-box;margin-left:4px;}
-.user .d2-container-full__header .el-form-item{margin:0;}
+.user .d2-container-full__header .el-form-item{ margin:0;}
 .user .d2-container-full__header .el-input{width:180px;}
 .user .d2-container-full__header .append .el-input{width:100px;}
 .user .el-dialog .el-dialog__body .el-col{margin-bottom:10px;}

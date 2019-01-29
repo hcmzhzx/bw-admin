@@ -60,8 +60,8 @@
                   }
                }
             },
-            formTemplate:{
-               examine_url: {title: '审核链接', value: '', component:{placeholder:'http://self.eyooh.com/detail?id=xxx'}},
+            formTemplate: {
+               examine_url: { title: '审核链接', value: '', component: { placeholder: 'http://self.eyooh.com/detail?id=xxx' } },
             },
             formOptions: {labelWidth: '80', labelPosition: 'left', saveLoading: false},
             options:{border: true},

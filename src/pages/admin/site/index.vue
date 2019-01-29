@@ -9,7 +9,7 @@
                <span>{{scope.row.site.plateform==2 ? '爆文' : '保险'}}</span>
             </template>
          </el-table-column>
-         <el-table-column align="center" prop="wechat.appid" label="公众号appid"></el-table-column>
+         <el-table-column align="center" min-width="180" prop="wechat.appid" label="公众号appid"></el-table-column>
          <el-table-column align="center" width="140" prop="site.phone" label="客服电话"></el-table-column>
          <el-table-column align="center" width="140" prop="site.wechat" label="客服微信"></el-table-column>
          <el-table-column align="center" width="120" prop="site.bid" label="品牌"></el-table-column>
@@ -18,7 +18,7 @@
                <img :src="scope.row.site.wxcode" class="qrcode">
             </template>
          </el-table-column>
-         <el-table-column align="center" fixed="right" label="操作" width="140">
+         <el-table-column align="center" fixed="right" label="操作" width="100">
             <template slot-scope="scope">
                <el-button type="primary" @click="$router.push({name:'admin-site-look',query:{plate:scope.row.plate}})" size="mini">编辑</el-button>
             </template>
@@ -42,7 +42,7 @@
          if (brand) {
             this.brand = brand
          } else {
-            httpGet(`brand_select`).then(res => { // 获取公司
+            await httpGet(`brand_select`).then(res => { // 获取公司
                for (let item of Object.values(res)) {
                   this.brand.push(item)
                }
@@ -53,7 +53,7 @@
             for (let [k, v] of Object.entries(res)) {
                let obj = Object.assign({ plate: k }, v)
                if (obj.site.bid) {
-                  obj.site.bid = brand.find(item => { return obj.site.bid == item.id }).name
+                  obj.site.bid = this.brand.find(item => { return obj.site.bid == item.id }).name
                } else {
                   obj.site.bid = '全品牌'
                }

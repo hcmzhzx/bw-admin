@@ -33,22 +33,22 @@
       </template>
       <template>
          <el-table :data="data" border style="width:100%" v-loading="loading">
-            <el-table-column align="center" prop="id" label="id" width="80px"></el-table-column>
-            <el-table-column align="center" prop="cname" label="用户名"></el-table-column>
-            <el-table-column align="center" prop="phone" label="手机号"></el-table-column>
-            <el-table-column align="center" prop="wechat" label="微信"></el-table-column>
-            <el-table-column align="center" prop="bid" label="公司"></el-table-column>
-            <el-table-column align="center" prop="first_rate" label="普通佣金"></el-table-column>
-            <el-table-column align="center" prop="second_rate" label="经销商佣金"></el-table-column>
-            <el-table-column align="center" prop="sid.username" label="所属员工"></el-table-column>
-            <el-table-column align="center" label="关注" width="100px">
+            <el-table-column align="center" prop="id" label="id" width="90"></el-table-column>
+            <el-table-column align="center" prop="cname" label="用户名" width="120"></el-table-column>
+            <el-table-column align="center" prop="phone" label="手机号" width="120"></el-table-column>
+            <el-table-column align="center" prop="wechat" label="微信" width="120"></el-table-column>
+            <el-table-column align="center" prop="bid" label="公司" width="120"></el-table-column>
+            <el-table-column align="center" prop="first_rate" label="普通佣金" width="100"></el-table-column>
+            <el-table-column align="center" prop="second_rate" label="经销商佣金" width="100"></el-table-column>
+            <el-table-column align="center" prop="sid.username" label="所属员工" width="120"></el-table-column>
+            <el-table-column align="center" label="关注" width="100">
                <template slot-scope="scope">
                   <el-tag :type="scope.row.subscribe==0? 'danger' : 'success'">{{scope.row.subscribe==0 ? '未关注' : '已关注'}}</el-tag>
                </template>
             </el-table-column>
-            <el-table-column align="center" prop="locktime" label="到期时间"></el-table-column>
-            <el-table-column align="center" prop="addtime" label="注册时间"></el-table-column>
-            <el-table-column class="flex" align="center" fixed="right" label="操作" width="100px">
+            <el-table-column align="center" prop="locktime" label="到期时间" width="160"></el-table-column>
+            <el-table-column align="center" prop="addtime" label="注册时间" width="160"></el-table-column>
+            <el-table-column class="flex" align="center" fixed="right" label="操作" width="100">
                <template slot-scope="scope">
                   <el-button @click="$router.push({name:'admin-consumer-userInfo',query:{id:scope.row.id, type:'edit'}})" type="text" size="mini">编辑</el-button>
                   <el-button @click="$router.push({name:'admin-consumer-userInfo',query:{id:scope.row.id, type:'check'}})" type="text" size="mini">查看</el-button>

@@ -4,12 +4,12 @@
          <el-form class="flex end priceFrom" label-position="right" label-width="90px">
             <el-form-item label="文章分类">
                <el-select name="type" v-model="search.cid" placeholder="请选择">
-                  <el-option v-for="v in categorie" :label="v.name" :value="v.id"></el-option>
+                  <el-option v-for="v in categorie" :key="v.id" :label="v.name" :value="v.id"></el-option>
                </el-select>
             </el-form-item>
             <el-form-item label="品 牌">
                <el-select name="type" v-model="search.brand_id" placeholder="请选择">
-                  <el-option v-for="v in brand" :label="v.name" :value="v.id"></el-option>
+                  <el-option v-for="v in brand" :key="v.id" :label="v.name" :value="v.id"></el-option>
                </el-select>
             </el-form-item>
             <el-form-item label="分 类">
@@ -28,12 +28,12 @@
       <template>
          <el-table :data="data" border v-loading="loading">
             <el-table-column align="center" prop="id" label="id" width="100"></el-table-column>
-            <el-table-column align="center" prop="brand" label="品牌" width="140"></el-table-column>
-            <el-table-column align="center" prop="title" label="标题"></el-table-column>
-            <el-table-column align="center" prop="creator" label="创建者" width="140"></el-table-column>
+            <el-table-column align="center" prop="brand" label="品牌" min-width="120"></el-table-column>
+            <el-table-column align="center" prop="title" label="标题" min-width="200"></el-table-column>
+            <el-table-column align="center" prop="creator" label="创建者" width="120"></el-table-column>
             <el-table-column align="center" prop="view" label="浏览数" width="140" v-if="search.sort=='view'"></el-table-column>
             <el-table-column align="center" prop="share" label="分享数" width="140" v-if="search.sort=='share'"></el-table-column>
-            <el-table-column align="center" prop="created_at" label="创建时间" width="200"></el-table-column>
+            <el-table-column align="center" prop="created_at" label="创建时间" width="160"></el-table-column>
             <el-table-column align="center" label="操作" width="140">
                <template slot-scope="scope">
                   <el-button type="primary" @click="$router.push({name:'admin-article-detail',query:{id:scope.row.id}})" plain>查看详情</el-button>

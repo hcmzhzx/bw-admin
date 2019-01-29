@@ -3,11 +3,11 @@
       <template>
          <el-table :data="Data" border style="width:100%" :row-class-name="tableRowClassName" v-loading="loading">
             <el-table-column align="center" width="100" prop="id" label="id"></el-table-column>
-            <el-table-column align="center" width="160" prop="pinyin" label="拼音"></el-table-column>
-            <el-table-column align="center" width="160" prop="name" label="名字"></el-table-column>
-            <el-table-column align="center" prop="cname" label="公司名"></el-table-column>
-            <el-table-column align="center" prop="watchwords" label="描述"></el-table-column>
-            <el-table-column align="center" width="200" prop="created_at" label="创建时间"></el-table-column>
+            <el-table-column align="center" width="120" prop="pinyin" label="拼音"></el-table-column>
+            <el-table-column align="center" width="120" prop="name" label="名字"></el-table-column>
+            <el-table-column align="center" min-width="200" prop="cname" label="公司名"></el-table-column>
+            <el-table-column align="center" min-width="200" prop="watchwords" label="描述"></el-table-column>
+            <el-table-column align="center" width="160" prop="created_at" label="创建时间"></el-table-column>
          </el-table>
       </template>
       <template slot="footer">

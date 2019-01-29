@@ -59,46 +59,48 @@
 </template>
 
 <script>
-   import {httpGet} from '@/api/sys/http'
+   import { httpGet } from '@/api/sys/http'
 
-   //招商
+   // 招商
    export default {
       name: 'admin-statement-attract',
-      data(){
-         return{
-            thead:[],
-            attractList:{},
-            begin_time:'', //开始时间(时间戳)
-            end_time:'',   //结束时间(时间戳)
-            Loading:true
+      data () {
+         return {
+            thead: [],
+            attractList: {},
+            begin_time: '', // 开始时间(时间戳)
+            end_time: '', // 结束时间(时间戳)
+            Loading: true
          }
       },
-      created(){
-         this.loadData();
+      created () {
+         this.loadData()
       },
-      methods:{
-         loadData(){
+      methods: {
+         loadData () {
             this.loading = true
-            httpGet(`report/merchant`).then(res=>{
+            httpGet(`report/merchant`).then(res => {
                for (let [key, val] of Object.entries(res.data)) {
-                  key == 0 ? this.thead = val : this.attractList[key] = val;
+                  key == 0 ? this.thead = val : this.attractList[key] = val
                }
                this.Loading = false
             })
          },
-         searchBtn(){
+         searchBtn () {
             this.loading = true
-            httpGet(`report/merchant?begin_time=${this.begin_time/1000}&end_time=${this.end_time/1000}`).then(res=>{
+            httpGet(`report/merchant?begin_time=${this.begin_time / 1000}&end_time=${this.end_time / 1000}`).then(res => {
                for (let [key, val] of Object.entries(res.data)) {
-                  key == 0 ? this.thead = val : this.attractList[key] = val;
+                  key == 0 ? this.thead = val : this.attractList[key] = val
                }
                this.Loading = false
             })
          },
-         started(e){
-            let year = `${new Date().getFullYear()}-`, id = e.target.parentNode.getAttribute('data-id'), time = '';
-            time = new Date(year + e.target.parentNode.getAttribute('data-day')).getTime()/1000;
-            this.$router.push({name:'admin-statement-detail', query:{id,time,field:'sid'}})
+         started (e) {
+            let year = `${new Date().getFullYear()}-`
+            let id = e.target.parentNode.getAttribute('data-id')
+            let time = ''
+            time = new Date(year + e.target.parentNode.getAttribute('data-day')).getTime() / 1000
+            this.$router.push({ name: 'admin-statement-detail', query: { id, time, field: 'sid' } })
          }
       }
    }
